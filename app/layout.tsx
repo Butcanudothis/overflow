@@ -2,7 +2,9 @@ import { ClerkProvider } from "@clerk/nextjs";
 import React from "react";
 import type { Metadata } from "next";
 import "./globals.css";
+// eslint-disable-next-line camelcase
 import { Inter, Space_Grotesk } from "next/font/google";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,20 +36,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        elements: {
-          formButtonPrimary: "primary-gradient",
-          footerActionLink: "primary-gradient hover:primary-gradient-500",
-        },
-      }}
-    >
-      <html lang="en">
-        <body className={`${inter.variable} ${SpaceGrotesk.variable}`}>
-          <h1 className="h1-bold">Hello, world!</h1>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body className={`${inter.variable} ${SpaceGrotesk.variable}`}>
+        <ClerkProvider
+          appearance={{
+            elements: {
+              formButtonPrimary: "primary-gradient",
+              footerActionLink: "primary-gradient hover:primary-gradient-500",
+            },
+          }}
+        >
+          <ThemeProvider>{children}</ThemeProvider>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }
