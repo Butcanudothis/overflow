@@ -1,8 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import SignedStatus from "@/components/shared/navbar/SignedStatus";
-import Theme from "@/components/shared/navbar/Theme";
+import SignedStatus from "./SignedStatus";
+import Theme from "./Theme";
+import MobileNav from "./MobileNav";
+import { SignedIn } from "@clerk/nextjs";
 
 const Navbar = () => {
   return (
@@ -23,6 +25,8 @@ const Navbar = () => {
       <div className="flex-between gap-5">
         <Theme />
         <SignedStatus />
+        <MobileNav />
+        <SignedIn>hello</SignedIn>
       </div>
     </nav>
   );
