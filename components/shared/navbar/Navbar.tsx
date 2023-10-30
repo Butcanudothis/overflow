@@ -5,6 +5,7 @@ import SignedStatus from "./SignedStatus";
 import Theme from "./Theme";
 import MobileNav from "./MobileNav";
 import { SignedIn } from "@clerk/nextjs";
+import GlobalSearch from "@/components/shared/search/GlobalSearch";
 
 const Navbar = () => {
   return (
@@ -21,7 +22,7 @@ const Navbar = () => {
           <span className="text-primary-500">Stack</span>
         </p>
       </Link>
-      Global Search
+      <GlobalSearch />
       <div className="flex-between gap-5">
         <Theme />
         <SignedStatus />
