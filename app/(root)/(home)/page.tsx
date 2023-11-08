@@ -2,6 +2,9 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import LocalSearch from "@/components/shared/search/LocalSearch";
+import Filters from "@/components/shared/search/Filters";
+import { HomePageFilters } from "@/constants/filters";
+import HomeFilters from "@/components/Home/HomeFilters";
 
 const Home = () => {
   return (
@@ -22,7 +25,14 @@ const Home = () => {
           placeholder="Search Questions..."
           otherClasses="flex-1"
         />
+        <Filters
+          filters={HomePageFilters}
+          otherClasses="min-h-[56px] sm:min-w-[170px]"
+          containerClasses="hidden max-md:flex"
+        />
       </div>
+
+      <HomeFilters />
     </>
   );
 };
