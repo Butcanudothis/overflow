@@ -5,6 +5,36 @@ import LocalSearch from "@/components/shared/search/LocalSearch";
 import Filters from "@/components/shared/search/Filters";
 import { HomePageFilters } from "@/constants/filters";
 import HomeFilters from "@/components/Home/HomeFilters";
+import NoResult from "@/components/shared/NoResult";
+
+const questions = [
+  {
+    id: 1,
+    title: "How to use React?",
+    tags: [
+      { _id: 1, name: "React" },
+      { _id: 2, name: "JavaScript" },
+    ],
+    author: "John Doe",
+    upvotes: 10,
+    views: 100,
+    answers: 5,
+    createdAt: "2021-09-13T07:47:47.000Z",
+  },
+  {
+    id: 2,
+    title: "How to use styled-components?",
+    tags: [
+      { _id: 1, name: "React" },
+      { _id: 2, name: "JavaScript" },
+    ],
+    author: "John Doe",
+    upvotes: 10,
+    views: 100,
+    answers: 5,
+    createdAt: "2021-09-13T07:47:47.000Z",
+  },
+];
 
 const Home = () => {
   return (
@@ -33,6 +63,18 @@ const Home = () => {
       </div>
 
       <HomeFilters />
+      <div className="mt-10 flex w-full flex-col gap-6">
+        {questions.length > 0 ? (
+          questions.map((question) => "question")
+        ) : (
+          <NoResult
+            title="No results found"
+            description="Be the first person to ask a question! 🚀 Kickstart the discussion."
+            link="/ask-question"
+            linkTitle="Ask Question"
+          />
+        )}
+      </div>
     </>
   );
 };
