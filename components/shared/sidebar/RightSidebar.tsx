@@ -6,34 +6,34 @@ import RenderTag from "@/components/shared/sidebar/RenderTag";
 const RightSidebar = () => {
   const hotQuestions = [
     {
-      _id: 1,
+      _id: "1",
       title:
         "What is the difference between a function expression vs declaration in JavaScript?",
     },
     {
-      _id: 2,
+      _id: "2",
       title:
         "What is the difference between a function expression vs declaration in JavaScript?",
     },
     {
-      _id: 3,
+      _id: "3",
       title:
         "What is the difference between a function expression vs declaration in JavaScript?",
     },
     {
-      _id: 4,
+      _id: "4",
       title:
         "What is the difference between a function expression vs declaration in JavaScript?",
     },
   ];
 
   const popularTags = [
-    { _id: 1, name: "javascript", totalQuestions: 100 },
-    { _id: 2, name: "react", totalQuestions: 100 },
-    { _id: 3, name: "nodejs", totalQuestions: 100 },
-    { _id: 4, name: "nextjs", totalQuestions: 100 },
-    { _id: 5, name: "typescript", totalQuestions: 100 },
-    { _id: 6, name: "mongodb", totalQuestions: 100 },
+    { _id: "1", name: "javascript", totalQuestions: 100 },
+    { _id: "2", name: "react", totalQuestions: 100 },
+    { _id: "3", name: "nodejs", totalQuestions: 100 },
+    { _id: "4", name: "nextjs", totalQuestions: 100 },
+    { _id: "5", name: "typescript", totalQuestions: 100 },
+    { _id: "6", name: "mongodb", totalQuestions: 100 },
   ];
   return (
     <div

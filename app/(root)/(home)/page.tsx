@@ -6,33 +6,34 @@ import Filters from "@/components/shared/search/Filters";
 import { HomePageFilters } from "@/constants/filters";
 import HomeFilters from "@/components/Home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
+import QuestionCard from "@/components/cards/QuestionCard";
 
 const questions = [
   {
-    id: 1,
+    _id: "1",
     title: "How to use React?",
     tags: [
-      { _id: 1, name: "React" },
-      { _id: 2, name: "JavaScript" },
+      { _id: "1", name: "React" },
+      { _id: "2", name: "JavaScript" },
     ],
-    author: "John Doe",
+    author: { _id: "1", name: "John Doe", picture: "john-doe.jpg" },
     upvotes: 10,
-    views: 100,
-    answers: 5,
-    createdAt: "2021-09-13T07:47:47.000Z",
+    views: 100000,
+    answers: [],
+    createdAt: new Date("2023-09-13T07:47:47.000Z"),
   },
   {
-    id: 2,
-    title: "How to use styled-components?",
+    _id: "2",
+    title: "How to use Hooks?",
     tags: [
-      { _id: 1, name: "React" },
-      { _id: 2, name: "JavaScript" },
+      { _id: "1", name: "React" },
+      { _id: "2", name: "JavaScript" },
     ],
-    author: "John Doe",
+    author: { _id: "1", name: "John Doe", picture: "john-doe.jpg" },
     upvotes: 10,
     views: 100,
-    answers: 5,
-    createdAt: "2021-09-13T07:47:47.000Z",
+    answers: [],
+    createdAt: new Date("2021-09-13T07:47:47.000Z"),
   },
 ];
 
@@ -65,7 +66,19 @@ const Home = () => {
       <HomeFilters />
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions.length > 0 ? (
-          questions.map((question) => "question")
+          questions.map((question) => (
+            <QuestionCard
+              key={question._id}
+              _id={question._id}
+              title={question.title}
+              tags={question.tags}
+              author={question.author}
+              upvotes={question.upvotes}
+              views={question.views}
+              answers={question.answers}
+              createdAt={question.createdAt}
+            />
+          ))
         ) : (
           <NoResult
             title="No results found"
