@@ -20,7 +20,7 @@ const questions = [
     upvotes: 10,
     views: 100,
     answers: [],
-    createdAt: new Date("2021-09-13T07:47:47.000Z"),
+    createdAt: new Date("2023-09-13T07:47:47.000Z"),
   },
   {
     _id: "2",
