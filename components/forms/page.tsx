@@ -21,7 +21,11 @@ import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
 
 const type: any = "create";
-const Question = () => {
+
+type Props = {
+  mongoUserId: string;
+};
+const Question = ({ mongoUserId }: Props) => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof QuestionSchema>>({
@@ -41,8 +45,9 @@ const Question = () => {
       //     with all form values
       await createQuestion({
         title: values.title,
-        explanation: values.explanation,
+        content: values.explanation,
         tags: values.tags,
+        author: JSON.parse(mongoUserId),
       });
     } catch (error) {
       console.log(error);
