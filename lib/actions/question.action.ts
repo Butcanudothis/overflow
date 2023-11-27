@@ -8,6 +8,7 @@ import {
   GetQuestionsParams,
 } from "@/lib/actions/shared.types";
 import { revalidatePath } from "next/cache";
+import User from "@/database/user.model";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -17,7 +18,7 @@ export async function getQuestions(params: GetQuestionsParams) {
         path: "tags",
         model: Tag,
       })
-      .populate({ path: "author", model: "User" })
+      .populate({ path: "author", model: User })
       .sort({ createdAt: -1 });
     return { questions };
   } catch (err) {
