@@ -3,8 +3,11 @@
 import { connectToDatabase } from "@/lib/mongoose";
 import Question from "@/database/question.model";
 import Tag from "@/database/tag.model";
-import { GetQuestionsParams } from "@/lib/actions/shared.types";
-import { ZodString } from "zod";
+import {
+  CreateQuestionParams,
+  GetQuestionsParams,
+} from "@/lib/actions/shared.types";
+import { revalidatePath } from "next/cache";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
@@ -14,7 +17,8 @@ export async function getQuestions(params: GetQuestionsParams) {
         path: "tags",
         model: Tag,
       })
-      .populate({ path: "author", model: "User" });
+      .populate({ path: "author", model: "User" })
+      .sort({ createdAt: -1 });
     return { questions };
   } catch (err) {
     console.log(err);
@@ -22,16 +26,11 @@ export async function getQuestions(params: GetQuestionsParams) {
   }
 }
 
-export async function createQuestion(params: {
-  author: any;
-  title: string;
-  content: string;
-  tags: ZodString["_output"][];
-}) {
+export async function createQuestion(params: CreateQuestionParams) {
   // eslint-disable-next-line no-useless-catch
   try {
     connectToDatabase();
-    const { title, content, tags, author } = params;
+    const { title, content, tags, author, path } = params;
     // const { title, content, tags, author, path } = params;
     const question = await Question.create({
       title,
@@ -57,6 +56,7 @@ export async function createQuestion(params: {
         tags: { $each: tagDocuments },
       },
     });
+    revalidatePath(path);
   } catch (err) {
     throw err;
   }
