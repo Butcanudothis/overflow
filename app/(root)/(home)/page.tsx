@@ -7,37 +7,10 @@ import { HomePageFilters } from "@/constants/filters";
 import HomeFilters from "@/components/Home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
+import { getQuestions } from "@/lib/actions/question.action";
 
-const questions = [
-  {
-    _id: "1",
-    title: "How to use React?",
-    tags: [
-      { _id: "1", name: "React" },
-      { _id: "2", name: "JavaScript" },
-    ],
-    author: { _id: "1", name: "John Doe", picture: "john-doe.jpg" },
-    upvotes: 10,
-    views: 100000,
-    answers: [],
-    createdAt: new Date("2023-09-13T07:47:47.000Z"),
-  },
-  {
-    _id: "2",
-    title: "How to use Hooks?",
-    tags: [
-      { _id: "1", name: "React" },
-      { _id: "2", name: "JavaScript" },
-    ],
-    author: { _id: "1", name: "John Doe", picture: "john-doe.jpg" },
-    upvotes: 10,
-    views: 100,
-    answers: [],
-    createdAt: new Date("2021-09-13T07:47:47.000Z"),
-  },
-];
-
-const Home = () => {
+export default async function Home() {
+  const result = await getQuestions({});
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -65,8 +38,8 @@ const Home = () => {
 
       <HomeFilters />
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -90,6 +63,4 @@ const Home = () => {
       </div>
     </>
   );
-};
-
-export default Home;
+}
