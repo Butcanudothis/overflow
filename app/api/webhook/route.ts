@@ -61,7 +61,7 @@ export async function POST(req: Request) {
     const mongoUser = await createUser({
       clerkId: id,
       name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
-      username: username || Math.random().toString(36).substring(7),
+      username: username!,
       email: email_addresses[0].email_address,
       picture: image_url,
     });
@@ -75,14 +75,10 @@ export async function POST(req: Request) {
     // Prepare the update data
     const updateData: any = {
       name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
+      username: username!,
       email: email_addresses[0].email_address,
       picture: image_url,
     };
-
-    // Only include the username in the update data if it's not null or undefined
-    if (username) {
-      updateData.username = username;
-    }
 
     // Update the user in the database
     const mongoUser = await updateUser({
