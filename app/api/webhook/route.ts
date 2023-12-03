@@ -72,21 +72,27 @@ export async function POST(req: Request) {
     const { id, email_addresses, image_url, username, first_name, last_name } =
       evt.data;
 
-    // Create a new user in a database
+    // Prepare the update data
+    const updateData: any = {
+      name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
+      email: email_addresses[0].email_address,
+      picture: image_url,
+    };
+
+    // Only include the username in the update data if it's not null or undefined
+    if (username) {
+      updateData.username = username;
+    }
+
+    // Update the user in the database
     const mongoUser = await updateUser({
       clerkId: id,
-      updateData: {
-        name: `${first_name}${last_name ? ` ${last_name}` : ""}`,
-        username: username!,
-        email: email_addresses[0].email_address,
-        picture: image_url,
-      },
+      updateData,
       path: `/profile/${id}`,
     });
 
     return NextResponse.json({ message: "OK", user: mongoUser });
   }
-
   if (eventType === "user.deleted") {
     const { id } = evt.data;
 
