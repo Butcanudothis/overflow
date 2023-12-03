@@ -29,6 +29,8 @@ export async function createUser(userData: CreateUserParams) {
   try {
     connectToDatabase();
 
+    console.log("username:", userData.username);
+    console.log("userData:", userData);
     const newUser = await User.create(userData);
 
     return newUser;
@@ -43,6 +45,7 @@ export async function updateUser(params: UpdateUserParams) {
     connectToDatabase();
 
     const { clerkId, updateData, path } = params;
+    console.log("updateData:", updateData);
 
     await User.findOneAndUpdate({ clerkId }, updateData, {
       new: true,
@@ -71,16 +74,16 @@ export async function deleteUser(params: DeleteUserParams) {
 
     // get user question ids
     // eslint-disable-next-line
-    const userQuestionIds = await Question.find({ author: user._id }).distinct(
-      "_id",
-    );
+    // const userQuestionIds = await Question.find({ author: user._id }).distinct(
+    //   "_id",
+    // );
 
     // delete user questions
     await Question.deleteMany({ author: user._id });
 
     // TODO: delete user answers, comments, etc.
 
-    const deletedUser = await User.findByIdAndDelete(user._id);
+    const deletedUser: any = await User.findByIdAndDelete(user._id);
 
     return deletedUser;
   } catch (error) {
