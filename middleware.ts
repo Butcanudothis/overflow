@@ -7,7 +7,7 @@ import {authMiddleware} from "@clerk/nextjs"; // This example protects all route
 export default authMiddleware({
   publicRoutes: [
     "/",
-    "/api/webhooks(.*)",
+    "/api/webhook(.*)",
     "question/:id",
     "/tags",
     "/tags/:id",
