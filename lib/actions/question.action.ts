@@ -59,6 +59,7 @@ export async function createQuestion(params: CreateQuestionParams) {
     });
     revalidatePath(path);
   } catch (err) {
+    console.log(err);
     throw err;
   }
 }
