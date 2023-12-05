@@ -5,6 +5,7 @@ import { connectToDatabase } from "../mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
+  GetAllUsersParams,
   UpdateUserParams,
 } from "./shared.types";
 import { revalidatePath } from "next/cache";
@@ -90,55 +91,57 @@ export async function deleteUser(params: DeleteUserParams) {
   }
 }
 
-// export async function getAllUsers(params: GetAllUsersParams) {
-//   try {
-//     connectToDatabase();
-//
-//     const { searchQuery, filter, page = 1, pageSize = 10 } = params;
-//
-//     // Calculate the number of posts to skip based on the page number and page size
-//     const skipAmount = (page - 1) * pageSize;
-//
-//     const query: FilterQuery<typeof User> = {};
-//
-//     if (searchQuery) {
-//       query.$or = [
-//         { name: { $regex: new RegExp(searchQuery, "i") } },
-//         { username: { $regex: new RegExp(searchQuery, "i") } },
-//       ];
-//     }
-//
-//     let sortOptions = {};
-//
-//     switch (filter) {
-//       case "new_users":
-//         sortOptions = { joinedAt: -1 };
-//         break;
-//       case "old_users":
-//         sortOptions = { joinedAt: 1 };
-//         break;
-//       case "top_contributors":
-//         sortOptions = { reputation: -1 };
-//         break;
-//       default:
-//         break;
-//     }
-//
-//     // const { page = 1, pageSize = 20, filter, searhQuery } = params;
-//
-//     const users = await User.find(query)
-//         .sort(sortOptions)
-//         .skip(skipAmount)
-//         .limit(pageSize);
-//     const totalUsers = await User.countDocuments(query);
-//     const isNext = totalUsers > skipAmount + users.length;
-//
-//     return { users, isNext };
-//   } catch (error) {
-//     console.log(error);
-//     throw error;
-//   }
-// }
+export async function getAllUsers(params: GetAllUsersParams) {
+  try {
+    connectToDatabase();
+
+    //     const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+    //
+    //     // Calculate the number of posts to skip based on the page number and page size
+    //     const skipAmount = (page - 1) * pageSize;
+    //
+    //     const query: FilterQuery<typeof User> = {};
+    //
+    //     if (searchQuery) {
+    //       query.$or = [
+    //         { name: { $regex: new RegExp(searchQuery, "i") } },
+    //         { username: { $regex: new RegExp(searchQuery, "i") } },
+    //       ];
+    //     }
+    //
+    //     let sortOptions = {};
+    //
+    //     switch (filter) {
+    //       case "new_users":
+    //         sortOptions = { joinedAt: -1 };
+    //         break;
+    //       case "old_users":
+    //         sortOptions = { joinedAt: 1 };
+    //         break;
+    //       case "top_contributors":
+    //         sortOptions = { reputation: -1 };
+    //         break;
+    //       default:
+    //         break;
+    //     }
+    //
+    // const { page = 1, pageSize = 20, filter, searchQuery } = params;
+    const users = await User.find({}).sort({ createdAt: -1 });
+    return { users };
+
+    //     const users = await User.find(query)
+    //         .sort(sortOptions)
+    //         .skip(skipAmount)
+    //         .limit(pageSize);
+    //     const totalUsers = await User.countDocuments(query);
+    //     const isNext = totalUsers > skipAmount + users.length;
+    //
+    //     return { users, isNext };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
 
 // export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
 //   try {
