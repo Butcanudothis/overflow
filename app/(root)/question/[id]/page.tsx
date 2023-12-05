@@ -9,6 +9,7 @@ import RenderTag from "@/components/shared/sidebar/RenderTag";
 // import Answer from "@/components/forms/Answer";
 import {auth} from "@clerk/nextjs";
 import ParseHTML from "@/components/shared/ParseHTML";
+import Answer from "@/components/forms/Answer";
 // import {getUserById} from "@/lib/actions/user.action";
 // import AllAnswers from "@/components/shared/AllAnswers";
 // import Votes from "@/components/shared/Votes";
@@ -110,6 +111,7 @@ const Page = async ({ params, searchParams }: any) => {
       {/*    questionId={JSON.stringify(result._id)} */}
       {/*    authorId={JSON.stringify(mongoUser._id)} */}
       {/* /> */}
+      <Answer />
     </>
   );
 };

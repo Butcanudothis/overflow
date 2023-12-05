@@ -13,3 +13,7 @@ export const QuestionSchema = z.object({
     .min(1, "Must have at least one" + " tag")
     .max(3, "Must have at most 3 tags"),
 });
+
+export const AnswerSchema = z.object({
+  answer: z.string().min(100, "Answer must be at least 100 characters"),
+});
