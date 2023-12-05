@@ -8,6 +8,7 @@ import {formatNumber, getTimestamp} from "@/lib/utils";
 import RenderTag from "@/components/shared/sidebar/RenderTag";
 // import Answer from "@/components/forms/Answer";
 import {auth} from "@clerk/nextjs";
+import ParseHTML from "@/components/shared/ParseHTML";
 // import {getUserById} from "@/lib/actions/user.action";
 // import AllAnswers from "@/components/shared/AllAnswers";
 // import Votes from "@/components/shared/Votes";
@@ -83,7 +84,7 @@ const Page = async ({ params, searchParams }: any) => {
           textStyles="small-medium text-dark400_light800"
         />
       </div>
-      {/* <ParseHTML data={result.content} /> */}
+      <ParseHTML data={result.content} />
 
       <div className="mt-8 flex flex-wrap gap-2">
         {result.tags.map((tag: any) => (
