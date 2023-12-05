@@ -16,8 +16,17 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useTheme } from "@/context/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { createAnswer } from "@/lib/actions/answer.action";
+import { usePathname } from "next/navigation";
 
-const Answer = () => {
+interface Props {
+  question: string;
+  questionId: string;
+  authorId: string;
+}
+
+const Answer = ({ question, questionId, authorId }: Props) => {
+  const pathName = usePathname();
   // eslint-disable-next-line no-unused-vars
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof AnswerSchema>>({
@@ -28,10 +37,30 @@ const Answer = () => {
   });
   const editorRef = React.useRef(null);
   const { mode } = useTheme();
-  const handleCreateAnswer = () => {};
+  const handleCreateAnswer = async (data: z.infer<typeof AnswerSchema>) => {
+    setIsSubmitting(true);
+    try {
+      await createAnswer({
+        content: data.answer,
+        author: JSON.parse(authorId),
+        question: JSON.parse(questionId),
+        path: pathName,
+      });
+
+      form.reset();
+      if (editorRef.current) {
+        // @ts-ignore
+        editorRef.current.setContent("");
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <div>
-      <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
+      <div className="flex flex-col justify-between gap-5 py-2 sm:flex-row sm:items-center sm:gap-2 sm:py-3">
         <h4 className="paragraph-semibold text-dark400_light800">
           Write your answer
         </h4>
@@ -110,7 +139,7 @@ const Answer = () => {
           />
           <div className="flex justify-end">
             <Button
-              type="button"
+              type="submit"
               className="primary-text-gradient w-fit text-white"
               disabled={isSubmitting}
             >

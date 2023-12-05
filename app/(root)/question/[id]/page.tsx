@@ -3,23 +3,23 @@ import {getQuestionById} from "@/lib/actions/question.action";
 import Link from "next/link";
 import Image from "next/image";
 import Metric from "@/components/shared/Metric";
-import {formatNumber, getTimestamp} from "@/lib/utils";
-// import ParseHTML from "@/components/shared/ParseHTML";
-import RenderTag from "@/components/shared/sidebar/RenderTag";
-// import Answer from "@/components/forms/Answer";
+import {formatNumber, getTimestamp} from "@/lib/utils"; // import ParseHTML from "@/components/shared/ParseHTML";
+import RenderTag from "@/components/shared/sidebar/RenderTag"; // import Answer from "@/components/forms/Answer";
 import {auth} from "@clerk/nextjs";
 import ParseHTML from "@/components/shared/ParseHTML";
 import Answer from "@/components/forms/Answer";
+import {getUserById} from "@/lib/actions/user.action";
+import AllAnswers from "@/components/shared/AllAnswers"; // import {getUserById} from "@/lib/actions/user.action";
 // import {getUserById} from "@/lib/actions/user.action";
 // import AllAnswers from "@/components/shared/AllAnswers";
 // import Votes from "@/components/shared/Votes";
 
 const Page = async ({ params, searchParams }: any) => {
   const { userId: clerkId } = auth();
-  // let mongoUser;
+  let mongoUser;
 
   if (clerkId) {
-    // mongoUser = await getUserById({ userId: clerkId });
+    mongoUser = await getUserById({ userId: clerkId });
   }
   // console.log(mongoUser);
 
@@ -98,20 +98,19 @@ const Page = async ({ params, searchParams }: any) => {
         ))}
       </div>
 
-      {/* <AllAnswers */}
-      {/*    questionId={result._id} */}
-      {/*    userId={mongoUser._id} */}
-      {/*    totalAnswers={result.answers.length} */}
-      {/*    page={searchParams?.page} */}
-      {/*    filter={searchParams?.filter} */}
-      {/* /> */}
+      <AllAnswers
+        questionId={result._id}
+        userId={JSON.stringify(mongoUser._id)}
+        totalAnswers={result.answers.length}
+        page={searchParams?.page}
+        filter={searchParams?.filter}
+      />
 
-      {/* <Answer */}
-      {/*    question={result.content} */}
-      {/*    questionId={JSON.stringify(result._id)} */}
-      {/*    authorId={JSON.stringify(mongoUser._id)} */}
-      {/* /> */}
-      <Answer />
+      <Answer
+        question={result.content}
+        questionId={JSON.stringify(result._id)}
+        authorId={JSON.stringify(mongoUser._id)}
+      />
     </>
   );
 };
