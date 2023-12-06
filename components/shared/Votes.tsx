@@ -8,11 +8,12 @@ import {
 
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { toast } from "../ui/use-toast";
 import { formatNumber } from "@/lib/utils";
 import { toggleSaveQuestion } from "@/lib/actions/user.action";
+import { viewQuestion } from "@/lib/actions/interaction.action";
 
 interface Props {
   type: string;
@@ -112,12 +113,15 @@ const Votes = ({
     }
   };
 
-  // useEffect(() => {
-  //   viewQuestion({
-  //     questionId: JSON.parse(itemId),
-  //     userId: userId ? JSON.parse(userId) : undefined,
-  //   });
-  // }, [itemId, userId, pathname, router]);
+  useEffect(() => {
+    if (type === "Question") {
+      console.log("viewing question itemId, userId", itemId, userId);
+      viewQuestion({
+        questionId: JSON.parse(itemId),
+        userId: userId ? JSON.parse(userId) : undefined,
+      });
+    }
+  }, [itemId, userId, type]);
 
   return (
     // All Container
