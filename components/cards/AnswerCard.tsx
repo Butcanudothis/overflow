@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 import Metric from "../shared/Metric";
-import {formatNumber, getTimestamp} from "@/lib/utils";
-import {SignedIn} from "@clerk/nextjs";
+import { formatNumber, getTimestamp } from "@/lib/utils";
+import { SignedIn } from "@clerk/nextjs";
+import EditDeleteAction from "@/components/shared/EditDeleteAction";
 
 // import EditDeleteAction from "../shared/EditDeleteAction";
 
@@ -48,9 +49,9 @@ const AnswerCard = ({
         </h3>
 
         <SignedIn>
-          {/* {showActionsButtons && ( */}
-          {/*    <EditDeleteAction type="Answer" itemId={JSON.stringify(_id)} /> */}
-          {/* )} */}
+          {showActionsButtons && (
+            <EditDeleteAction type="Answer" itemId={JSON.stringify(_id)} />
+          )}
         </SignedIn>
       </div>
 

@@ -1,16 +1,16 @@
-import {Button} from "@/components/ui/button";
-import {getUserInfo} from "@/lib/actions/user.action";
-import {URLProps} from "@/types";
-import {auth, SignedIn} from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
+import { getUserInfo } from "@/lib/actions/user.action";
+import { URLProps } from "@/types";
+import { auth, SignedIn } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import {getJoinedMonthYear} from "@/lib/utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getJoinedMonthYear } from "@/lib/utils";
 import ProfileLink from "@/components/shared/ProfileLink";
 import Stats from "@/components/shared/Stats";
 import QuestionTab from "@/components/shared/QuestionTab";
-import AnswerTab from "@/components/AnswersTab"; // import QuestionTab from "@/components/shared/QuestionTab";
+import AnswerTab from "@/components/shared/AnswersTab"; // import QuestionTab from "@/components/shared/QuestionTab";
 // import QuestionTab from "@/components/shared/QuestionTab";
 // import AnswerTab from "@/components/shared/AnswerTab";
 
