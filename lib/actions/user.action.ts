@@ -105,20 +105,20 @@ export async function deleteUser(params: DeleteUserParams) {
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
-
+    const { searchQuery } = params;
     //     const { searchQuery, filter, page = 1, pageSize = 10 } = params;
     //
     //     // Calculate the number of posts to skip based on the page number and page size
     //     const skipAmount = (page - 1) * pageSize;
     //
-    //     const query: FilterQuery<typeof User> = {};
-    //
-    //     if (searchQuery) {
-    //       query.$or = [
-    //         { name: { $regex: new RegExp(searchQuery, "i") } },
-    //         { username: { $regex: new RegExp(searchQuery, "i") } },
-    //       ];
-    //     }
+    const query: FilterQuery<typeof User> = {};
+
+    if (searchQuery) {
+      query.$or = [
+        { name: { $regex: new RegExp(searchQuery, "i") } },
+        { username: { $regex: new RegExp(searchQuery, "i") } },
+      ];
+    }
     //
     //     let sortOptions = {};
     //
@@ -137,7 +137,7 @@ export async function getAllUsers(params: GetAllUsersParams) {
     //     }
     //
     // const { page = 1, pageSize = 20, filter, searchQuery } = params;
-    const users = await User.find({}).sort({ createdAt: -1 });
+    const users = await User.find(query).sort({ createdAt: -1 });
     return { users };
 
     //     const users = await User.find(query)
@@ -201,7 +201,9 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
     const skipAmount = (page - 1) * pageSize;
 
     const query: FilterQuery<typeof Question> = searchQuery
-      ? { title: { $regex: new RegExp(searchQuery, "i") } }
+      ? {
+          title: { $regex: new RegExp(searchQuery, "i") },
+        }
       : {};
     let sortOptions = {};
 
@@ -240,7 +242,11 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
-        { path: "author", model: User, select: "_id clrekId name picture" },
+        {
+          path: "author",
+          model: User,
+          select: "_id clrekId name picture",
+        },
       ],
     });
 
@@ -317,7 +323,10 @@ export async function getUserInfo(params: GetUserByIdParams) {
     ]);
 
     const criteria = [
-      { type: "QUESTION_COUNT" as BadgeCriteriaType, count: totalQuestions },
+      {
+        type: "QUESTION_COUNT" as BadgeCriteriaType,
+        count: totalQuestions,
+      },
       { type: "ANSWER_COUNT" as BadgeCriteriaType, count: totalAnswers },
       {
         type: "QUESTION_UPVOTES" as BadgeCriteriaType,
