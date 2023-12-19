@@ -63,7 +63,11 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
       },
       populate: [
         { path: "tags", model: Tag, select: "_id name" },
-        { path: "author", model: User, select: "_id clerkId name picture" },
+        {
+          path: "author",
+          model: User,
+          select: "_id clerkId name picture",
+        },
       ],
     });
 
@@ -75,6 +79,32 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     const questions = tag.questions;
 
     return { tagTitle: tag.name, questions, isNext };
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
+export async function getTopPopularTags() {
+  try {
+    connectToDatabase();
+    const TopTags = await Tag.aggregate([
+      {
+        $project: {
+          name: 1,
+          numberOfQuestions: { $size: "$questions" },
+        },
+      },
+      {
+        $sort: {
+          numberOfQuestions: -1,
+        },
+      },
+      {
+        $limit: 5,
+      },
+    ]);
+    return TopTags;
   } catch (error) {
     console.log(error);
     throw error;

@@ -2,39 +2,15 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import RenderTag from "@/components/shared/sidebar/RenderTag";
+import { getHotQuestions } from "@/lib/actions/question.action";
+import { getTopPopularTags } from "@/lib/actions/tag.action";
 
-const RightSidebar = () => {
-  const hotQuestions = [
-    {
-      _id: "1",
-      title:
-        "What is the difference between a function expression vs declaration in JavaScript?",
-    },
-    {
-      _id: "2",
-      title:
-        "What is the difference between a function expression vs declaration in JavaScript?",
-    },
-    {
-      _id: "3",
-      title:
-        "What is the difference between a function expression vs declaration in JavaScript?",
-    },
-    {
-      _id: "4",
-      title:
-        "What is the difference between a function expression vs declaration in JavaScript?",
-    },
-  ];
+// @ts-ignore
+const RightSidebar = async () => {
+  const hotQuestions = await getHotQuestions();
 
-  const popularTags = [
-    { _id: "1", name: "javascript", totalQuestions: 100 },
-    { _id: "2", name: "react", totalQuestions: 100 },
-    { _id: "3", name: "nodejs", totalQuestions: 100 },
-    { _id: "4", name: "nextjs", totalQuestions: 100 },
-    { _id: "5", name: "typescript", totalQuestions: 100 },
-    { _id: "6", name: "mongodb", totalQuestions: 100 },
-  ];
+  const popularTags = await getTopPopularTags();
+
   return (
     <div
       className="custom-scrollbar background-light900_dark200 light-border sticky right-0  top-0 flex  h-screen w-[350px]
@@ -44,24 +20,27 @@ const RightSidebar = () => {
         <div>
           <h3 className="h3-bold text-dark200_light900">Top Questions</h3>
           <div className="mt-7 flex w-full flex-col gap-[30px]">
-            {hotQuestions.map((item) => (
-              <Link
-                href={`/questions/${item._id}`}
-                key={item._id}
-                className=" flex items-center justify-between gap-7"
-              >
-                <p className="body-medium text-dark500_light700">
-                  {item.title}
-                </p>
-                <Image
-                  src="/assets/icons/chevron-right.svg"
-                  alt="right"
-                  width={20}
-                  height={20}
-                  className="invert-colors"
-                />
-              </Link>
-            ))}
+            {
+              // @ts-ignore
+              hotQuestions.map((item) => (
+                <Link
+                  href={`/question/${item._id}`}
+                  key={item._id}
+                  className=" flex items-center justify-between gap-7"
+                >
+                  <p className="body-medium text-dark500_light700">
+                    {item.title}
+                  </p>
+                  <Image
+                    src="/assets/icons/chevron-right.svg"
+                    alt="right"
+                    width={20}
+                    height={20}
+                    className="invert-colors"
+                  />
+                </Link>
+              ))
+            }
           </div>
         </div>
         <div className="mt-16">
