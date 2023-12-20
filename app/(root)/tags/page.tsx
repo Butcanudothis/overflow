@@ -1,15 +1,16 @@
 import React from "react";
 import LocalSearch from "@/components/shared/search/LocalSearch";
 import Filters from "@/components/shared/search/Filters";
-import { UserFilters } from "@/constants/filters";
 import { getAllTags } from "@/lib/actions/tag.action";
 import NoResult from "@/components/shared/NoResult";
 import Link from "next/link";
 import { SearchParamsProps } from "@/types";
+import { TagFilters } from "@/constants/filters";
 
 const page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllTags({
     searchQuery: searchParams.q,
+    filter: searchParams.filter,
   });
   return (
     <>
@@ -24,7 +25,7 @@ const page = async ({ searchParams }: SearchParamsProps) => {
           otherClasses="flex-1"
         />
         <Filters
-          filters={UserFilters}
+          filters={TagFilters}
           otherClasses="min-h-[56px] sm:min-w-[170px]"
         />
       </div>
