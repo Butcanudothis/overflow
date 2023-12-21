@@ -1,6 +1,6 @@
 "use server";
-import {revalidatePath} from "next/cache";
-import {connectToDatabase} from "../mongoose";
+import { revalidatePath } from "next/cache";
+import { connectToDatabase } from "../mongoose";
 import {
   AnswerVoteParams,
   CreateAnswerParams,
@@ -57,33 +57,34 @@ export async function getAnswers(params: GetAnswersParams) {
   try {
     await connectToDatabase();
 
-    const { questionId } = params;
-    const answers = await Answer.find({ question: questionId })
-      .populate("author", "_id clerkId name picture")
-      .sort({ createdAt: -1 });
-    return { answers };
+    const { questionId, sortBy } = params;
+
     // const { questionId, sortBy, page = 1, pageSize = 10 } = params;
     // const skipAmount = (page - 1) * pageSize;
-    //
-    // let sortOptions = {};
-    //
-    // switch (sortBy) {
-    //   case "old":
-    //     sortOptions = { createdAt: 1 };
-    //     break;
-    //   case "recent":
-    //     sortOptions = { createdAt: -1 };
-    //     break;
-    //   case "lowestUpvotes":
-    //     sortOptions = { upvotes: 1 };
-    //     break;
-    //   case "highestUpvotes":
-    //     sortOptions = { upvotes: -1 };
-    //     break;
-    //
-    //   default:
-    //     break;
-    // }
+
+    let sortOptions = {};
+
+    switch (sortBy) {
+      case "old":
+        sortOptions = { createdAt: 1 };
+        break;
+      case "recent":
+        sortOptions = { createdAt: -1 };
+        break;
+      case "lowestUpvotes":
+        sortOptions = { upvotes: 1 };
+        break;
+      case "highestUpvotes":
+        sortOptions = { upvotes: -1 };
+        break;
+
+      default:
+        break;
+    }
+    const answers = await Answer.find({ question: questionId })
+      .populate("author", "_id clerkId name picture")
+      .sort(sortOptions);
+    return { answers };
     //
     // const answers = await Answer.find({ question: questionId })
     //   .populate("author", "_id clerkId name picture")

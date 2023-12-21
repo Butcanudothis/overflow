@@ -1,10 +1,10 @@
 import React from "react";
 import Filter from "./search/Filters";
-import {AnswerFilters} from "@/constants/filters";
-import {getAnswers} from "@/lib/actions/answer.action";
+import { AnswerFilters } from "@/constants/filters";
+import { getAnswers } from "@/lib/actions/answer.action";
 import Link from "next/link";
 import Image from "next/image";
-import {getTimestamp} from "@/lib/utils";
+import { getTimestamp } from "@/lib/utils";
 import ParseHTML from "./ParseHTML";
 import Votes from "@/components/shared/Votes";
 // import Votes from "./Votes";
@@ -14,7 +14,7 @@ interface Props {
   userId: string;
   totalAnswers: number;
   page?: number;
-  filter?: number;
+  filter?: string;
 }
 
 const AllAnswers = async ({
@@ -27,7 +27,7 @@ const AllAnswers = async ({
   const result = await getAnswers({
     questionId,
     // page: page ? +page : 1,
-    // sortBy: filter,
+    sortBy: filter,
   });
 
   return (
