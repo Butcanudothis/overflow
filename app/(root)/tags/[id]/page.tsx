@@ -5,6 +5,7 @@ import LocalSearchbar from "@/components/shared/search/LocalSearch";
 import { getQuestionsByTagId } from "@/lib/actions/tag.action";
 import { URLProps } from "@/types";
 import React from "react";
+import Pagination from "@/components/shared/Pagination";
 
 const Page = async ({ params, searchParams }: URLProps) => {
   const result = await getQuestionsByTagId({
@@ -57,10 +58,10 @@ const Page = async ({ params, searchParams }: URLProps) => {
         )}
       </div>
       <div className=" mt-10">
-        {/* <Pagination */}
-        {/*  isNext={result.isNext} */}
-        {/*  pageNumber={searchParams?.page ? +searchParams.page : 1} */}
-        {/* /> */}
+        <Pagination
+          isNext={result.isNext}
+          pageNumber={searchParams?.page ? +searchParams.page : 1}
+        />
       </div>
     </>
   );

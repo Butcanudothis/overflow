@@ -245,7 +245,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
         {
           path: "author",
           model: User,
-          select: "_id clrekId name picture",
+          select: "_id clerkId name picture",
         },
       ],
     });
