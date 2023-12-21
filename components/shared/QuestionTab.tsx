@@ -1,9 +1,9 @@
-import {getUserQuestions} from "@/lib/actions/user.action";
-import {SearchParamsProps} from "@/types";
+import { getUserQuestions } from "@/lib/actions/user.action";
+import { SearchParamsProps } from "@/types";
 import React from "react";
 import QuestionCard from "../cards/QuestionCard";
 
-// import Pagination from "./Pagination";
+import Pagination from "./Pagination";
 
 interface Props extends SearchParamsProps {
   userId: string;
@@ -32,10 +32,10 @@ const QuestionTab = async ({ searchParams, userId, clerkId }: Props) => {
           createdAt={question.createdAt}
         />
       ))}
-      {/* <Pagination */}
-      {/*    pageNumber={searchParams.page ? +searchParams.page : 1} */}
-      {/*    isNext={result.isNext} */}
-      {/* /> */}
+      <Pagination
+        pageNumber={searchParams.page ? +searchParams.page : 1}
+        isNext={result?.isNextQuestions}
+      />
     </>
   );
 };
