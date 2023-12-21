@@ -105,11 +105,11 @@ export async function deleteUser(params: DeleteUserParams) {
 export async function getAllUsers(params: GetAllUsersParams) {
   try {
     connectToDatabase();
-    const { searchQuery, filter } = params;
-    //     const { searchQuery, filter, page = 1, pageSize = 10 } = params;
+    // const { searchQuery, filter } = params;
+    const { searchQuery, filter, page = 1, pageSize = 6 } = params;
     //
     //     // Calculate the number of posts to skip based on the page number and page size
-    //     const skipAmount = (page - 1) * pageSize;
+    const skipAmount = (page - 1) * pageSize;
     //
     const query: FilterQuery<typeof User> = {};
 
@@ -137,17 +137,17 @@ export async function getAllUsers(params: GetAllUsersParams) {
     }
 
     // const { page = 1, pageSize = 20, filter, searchQuery } = params;
-    const users = await User.find(query).sort(sortOptions);
-    return { users };
+    // const users = await User.find(query).sort(sortOptions);
+    // return { users };
 
-    //     const users = await User.find(query)
-    //         .sort(sortOptions)
-    //         .skip(skipAmount)
-    //         .limit(pageSize);
-    //     const totalUsers = await User.countDocuments(query);
-    //     const isNext = totalUsers > skipAmount + users.length;
-    //
-    //     return { users, isNext };
+    const users = await User.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+    const totalUsers = await User.countDocuments(query);
+    const isNext = totalUsers > skipAmount + users.length;
+
+    return { users, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -245,7 +245,7 @@ export async function getSavedQuestions(params: GetSavedQuestionsParams) {
         {
           path: "author",
           model: User,
-          select: "_id clrekId name picture",
+          select: "_id clerkId name picture",
         },
       ],
     });
@@ -361,7 +361,7 @@ export async function getUserQuestions(params: GetUserStatsParams) {
   try {
     connectToDatabase();
 
-    const { userId, page = 1, pageSize = 10 } = params;
+    const { userId, page = 1, pageSize = 3 } = params;
 
     const skipAmount = (page - 1) * pageSize;
 

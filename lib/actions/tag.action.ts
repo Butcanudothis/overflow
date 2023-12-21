@@ -32,10 +32,10 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
 export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
-    // const { page, pageSize, filter, searchQuery } = params;
-    const { searchQuery, filter } = params;
+    const { page = 1, pageSize = 12, filter, searchQuery } = params;
+    // const { searchQuery, filter } = params;
     const query: FilterQuery<typeof Tag> = {};
-
+    const skipAmount = (page - 1) * pageSize;
     if (searchQuery) {
       query.$or = [{ name: { $regex: searchQuery, $options: "i" } }];
     }
@@ -61,8 +61,13 @@ export async function getAllTags(params: GetAllTagsParams) {
       default:
         break;
     }
-    const tags = await Tag.find(query).sort(sortOptions);
-    return { tags };
+    const totalTags = await Tag.countDocuments(query);
+    const isNext = totalTags > skipAmount + pageSize;
+    const tags = await Tag.find(query)
+      .sort(sortOptions)
+      .skip(skipAmount)
+      .limit(pageSize);
+    return { tags, isNext };
   } catch (error) {
     console.log(error);
     throw error;
@@ -72,7 +77,7 @@ export async function getAllTags(params: GetAllTagsParams) {
 export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
   try {
     await connectToDatabase();
-    const { tagId, searchQuery, page = 1, pageSize = 2 } = params;
+    const { tagId, searchQuery, page = 1, pageSize = 10 } = params;
 
     const skipAmount = (page - 1) * pageSize;
 
@@ -86,7 +91,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
         : {},
       options: {
         skip: skipAmount,
-        limit: pageSize + 1,
+        limit: pageSize,
         sort: { createdAt: -1 },
       },
       populate: [
@@ -103,7 +108,9 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
       throw new Error("Tag not found");
     }
 
-    const isNext = tag.questions.length > pageSize;
+    // Check if there are more questions for the next page
+    const isNext =
+      (await Question.countDocuments({ tags: tagId })) > skipAmount + pageSize;
     const questions = tag.questions;
 
     return { tagTitle: tag.name, questions, isNext };

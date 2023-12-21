@@ -8,6 +8,7 @@ import { getSavedQuestions } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import Pagination from "@/components/shared/Pagination";
 
 export default async function Collection({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
@@ -70,10 +71,10 @@ export default async function Collection({ searchParams }: SearchParamsProps) {
         )}
       </div>
       <div className=" mt-10">
-        {/* <Pagination */}
-        {/*    isNext={result?.isNext} */}
-        {/*    pageNumber={searchParams.page ? +searchParams.page : 1} */}
-        {/* /> */}
+        <Pagination
+          isNext={result?.isNext}
+          pageNumber={searchParams.page ? +searchParams.page : 1}
+        />
       </div>
     </>
   );
