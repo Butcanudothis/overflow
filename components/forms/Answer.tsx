@@ -1,23 +1,23 @@
 "use client";
-import React, { useState } from "react";
-import { AnswerSchema } from "@/lib/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
+} from "../ui/form";
+import { AnswerSchema } from "@/lib/validations";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
+import { useRef, useState } from "react";
 import { useTheme } from "@/context/ThemeProvider";
-import { Button } from "@/components/ui/button";
+import { Button } from "../ui/button";
 import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   question: string;
@@ -26,54 +26,103 @@ interface Props {
 }
 
 const Answer = ({ question, questionId, authorId }: Props) => {
-  const pathName = usePathname();
-  // eslint-disable-next-line no-unused-vars
+  console.log(question);
+  const pathname = usePathname();
+  const [isSubmittingAI, setIsSubmittingAI] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { mode } = useTheme();
+  const editorRef = useRef(null);
   const form = useForm<z.infer<typeof AnswerSchema>>({
     resolver: zodResolver(AnswerSchema),
     defaultValues: {
       answer: "",
     },
   });
-  const editorRef = React.useRef(null);
-  const { mode } = useTheme();
-  const handleCreateAnswer = async (data: z.infer<typeof AnswerSchema>) => {
+
+  const handleCreateAnswer = async (values: z.infer<typeof AnswerSchema>) => {
     setIsSubmitting(true);
+
     try {
       await createAnswer({
-        content: data.answer,
+        content: values.answer,
         author: JSON.parse(authorId),
         question: JSON.parse(questionId),
-        path: pathName,
+        path: pathname,
       });
 
+      // Reset the form and editor to empty
       form.reset();
       if (editorRef.current) {
-        // @ts-ignore
-        editorRef.current.setContent("");
+        const editor = editorRef.current as any;
+
+        editor.setContent("");
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
+
+    toast({
+      title: "Answer submitted successfully",
+    });
   };
+
+  const generateAIAnswer = async () => {
+    if (!authorId) {
+      return;
+    }
+    setIsSubmittingAI(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
+        {
+          method: "POST",
+          body: JSON.stringify({ question }),
+        },
+      );
+
+      const aiAnswer = await response.json();
+      const formattedAnswer = aiAnswer.reply.replace(/\n/g, "<br/>");
+
+      if (editorRef.current) {
+        const editor = editorRef.current as any;
+        editor.setContent(formattedAnswer);
+      }
+    } catch (error) {
+    } finally {
+      setIsSubmittingAI(false);
+    }
+  };
+
   return (
     <div>
-      <div className="flex flex-col justify-between gap-5 py-2 sm:flex-row sm:items-center sm:gap-2 sm:py-3">
+      <div
+        className="sm :items-center mt-10 flex flex-col justify-between gap-5
+sm:flex-row sm:gap-2"
+      >
         <h4 className="paragraph-semibold text-dark400_light800">
-          Write your answer
+          Write your answers here
         </h4>
-        <Button className="btn light-border-2 gap-1.5 rounded-md px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500">
-          <Image
-            src="/assets/icons/stars.svg"
-            alt="stars icon"
-            width={12}
-            height={12}
-            className="object-contain"
-            onClick={() => {}}
-          />
-          Generate an AI answer
+        <Button
+          className="btn light-border-2 text-pr imary-500 gap-1.5 rounded-md px-4
+py-2.5 shadow-none dark:text-primary-500"
+          onClick={generateAIAnswer}
+        >
+          {isSubmittingAI ? (
+            <>Generating...</>
+          ) : (
+            <>
+              <Image
+                src="/assets/icons/stars.svg"
+                width={12}
+                height={12}
+                alt="star"
+                className="object-contain"
+              />
+              Generate AI answer
+            </>
+          )}
         </Button>
       </div>
       <Form {...form}>
@@ -85,20 +134,21 @@ const Answer = ({ question, questionId, authorId }: Props) => {
             control={form.control}
             name="answer"
             render={({ field }) => (
-              <FormItem className="flex w-full flex-col gap-3">
+              <FormItem className=" flex w-full flex-col">
                 <FormControl className="mt-3.5">
-                  {/*  add editor component */}
                   <Editor
-                    apiKey={process.env.NEXT_PUBLIC_TINY_API_KEY}
+                    apiKey={process.env.NEXT_PUBLIC_TINY_MCE_API_KEY}
                     onInit={(evt, editor) => {
                       // @ts-ignore
                       editorRef.current = editor;
                     }}
                     onBlur={field.onBlur}
-                    onEditorChange={(content) => field.onChange(content)}
+                    onEditorChange={(content) => {
+                      field.onChange(content);
+                    }}
                     initialValue=""
                     init={{
-                      height: 500,
+                      height: 350,
                       menubar: false,
                       plugins: [
                         "advlist",
@@ -113,37 +163,40 @@ const Answer = ({ question, questionId, authorId }: Props) => {
                         "searchreplace",
                         "visualblocks",
                         "codesample",
+                        "code",
                         "fullscreen",
                         "insertdatetime",
                         "media",
                         "table",
+                        "paste",
+                        "code",
+                        "help",
+                        "wordcount",
                       ],
                       toolbar:
-                        "undo redo | codesample |" +
-                        "bold italic forecolor | alignleft aligncenter " +
-                        "alignright alignjustify | bullist numlist",
+                        "undo redo | " +
+                        "codesample | bold italic backcolor | alignleft aligncenter " +
+                        "alignright alignjustify | bullist numlist | " +
+                        "removeformat | help",
                       content_style:
                         "body { font-family:Inter; font-size:16px }",
                       skin: mode === "dark" ? "oxide-dark" : "oxide",
-                      content_css: mode === "dark" ? "dark" : "default",
+                      content_css: mode === "dark" ? "dark" : "light",
                     }}
                   />
                 </FormControl>
-                <FormDescription className="body-regular mt-3.5 text-light-500">
-                  Provide a detailed explanation of your answer. Minimum 100
-                  characters.
-                </FormDescription>
                 <FormMessage className="text-red-500" />
               </FormItem>
             )}
           />
+
           <div className="flex justify-end">
             <Button
               type="submit"
-              className="primary-text-gradient w-fit text-white"
+              className="primary-gradient w-fit text-white"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Submitting..." : "Submit"}
+              {isSubmitting ? "Submitting" : "Submit"}
             </Button>
           </div>
         </form>
