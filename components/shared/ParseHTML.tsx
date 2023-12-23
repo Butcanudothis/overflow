@@ -1,7 +1,6 @@
 "use client";
 import Prism from "prismjs";
 import parse from "html-react-parser";
-
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-java";
 import "prismjs/components/prism-c";
@@ -35,7 +34,7 @@ const ParseHTML = ({ data }: Props) => {
     Prism.highlightAll();
   }, []);
   return (
-    <div className=" text-dark400_light700 markdown w-full min-w-full ">
+    <div className={`text-dark400_light700 markdown w-full min-w-full `}>
       {parse(data)}
     </div>
   );

@@ -13,7 +13,7 @@ const page = async ({ params }: ParamsProps) => {
 
   return (
     <>
-      <h1 className=" h1-bold">Edit Profile</h1>
+      <h1 className=" h1-bold text-dark300_light700">Edit Profile</h1>
       <div>
         <ProfileEdit mongoUser={JSON.stringify(mongoUser)} clerkId={userId} />
       </div>
