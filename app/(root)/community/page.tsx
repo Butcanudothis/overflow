@@ -7,7 +7,17 @@ import Link from "next/link";
 import UserCard from "@/components/cards/UserCard";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Community | NextFlow",
+  description:
+    "NextFlow is a community of developers helping developers." +
+    " Join today!",
+  icons: {
+    icon: "/assets/images/site-logo.svg",
+  },
+};
 const page = async ({ searchParams }: SearchParamsProps) => {
   const result = await getAllUsers({
     searchQuery: searchParams.q,

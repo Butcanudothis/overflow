@@ -3,7 +3,15 @@ import Question from "@/components/forms/Question";
 import { redirect } from "next/navigation";
 import { getUserById } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Ask A Question| NextFlow",
+  description: " Ask a question and get answers from the NextFlow community.",
+  icons: {
+    icon: "/assets/images/site-logo.svg",
+  },
+};
 const AskQuestion = async () => {
   const { userId } = auth();
 

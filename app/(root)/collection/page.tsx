@@ -9,7 +9,17 @@ import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Pagination from "@/components/shared/Pagination";
+import type { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Collections | NextFlow",
+  description:
+    "NextFlow is a community of developers helping developers." +
+    " Join today!",
+  icons: {
+    icon: "/assets/images/site-logo.svg",
+  },
+};
 export default async function Collection({ searchParams }: SearchParamsProps) {
   const { userId } = auth();
   if (!userId) redirect("/sign-in");
