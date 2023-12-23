@@ -76,7 +76,7 @@ pre[class*="language-"] {
 .token.tag,
 .token.operator,
 .token.number {
-    color: #dd672c;
+    color: #4296FF
 }
 
 .token.property,
@@ -112,12 +112,12 @@ code.language-scss,
 .token.statement,
 .token.regex,
 .token.atrule {
-    color: #fe8c52;
+    color: #4296FF;
 }
 
 .token.placeholder,
 .token.variable {
-    color: #fe8c52;
+    color: #4296FF;
 }
 
 .token.deleted {

@@ -34,7 +34,7 @@ const Theme = () => {
               alt="moon"
               width={20}
               height={20}
-              className="active-theme"
+              className="active-theme-night"
             />
           )}
         </MenubarTrigger>
@@ -58,7 +58,13 @@ const Theme = () => {
                 alt={item.value}
                 width={16}
                 height={16}
-                className={`${mode === item.value && "active-theme"}`}
+                className={`${
+                  mode === item.value && item.value === "light"
+                    ? "active-theme"
+                    : mode === item.value && item.value === "dark"
+                      ? "active-theme-night"
+                      : ""
+                }`}
               />
               <p
                 className={`body-semibold text-light-500 ${

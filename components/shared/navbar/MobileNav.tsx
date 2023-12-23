@@ -75,8 +75,8 @@ const MobileNav = () => {
             height={23}
           />
           <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900">
-            Re
-            <span className="text-primary-500">Stack</span>
+            Next
+            <span className="text-primary-500">Flow</span>
           </p>
         </Link>
         <SheetClose asChild>

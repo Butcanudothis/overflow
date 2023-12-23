@@ -4,7 +4,6 @@ import Image from "next/image";
 import SignedStatus from "./SignedStatus";
 import Theme from "./Theme";
 import MobileNav from "./MobileNav";
-import { SignedIn } from "@clerk/nextjs";
 import GlobalSearch from "@/components/shared/search/GlobalSearch";
 
 const Navbar = () => {
@@ -18,8 +17,8 @@ const Navbar = () => {
           height={23}
         />
         <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900 max-sm:hidden">
-          Re
-          <span className="text-primary-500">Stack</span>
+          Next
+          <span className="text-primary-500">Flow</span>
         </p>
       </Link>
       <GlobalSearch />
@@ -27,7 +26,6 @@ const Navbar = () => {
         <Theme />
         <SignedStatus />
         <MobileNav />
-        <SignedIn>hello</SignedIn>
       </div>
     </nav>
   );
