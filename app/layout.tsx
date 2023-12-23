@@ -24,7 +24,9 @@ export const metadata: Metadata = {
   description:
     "A re-imagined stack overflow clone with a focus on" +
     " community. Explore questions, answers, and users. Ask questions and" +
-    " get answers. Earn reputation and badges. Vote and comment on" +
+    " get answers. Or Generate them with AI! Earn reputation and badges. Vote" +
+    " and" +
+    " comment on" +
     " questions and answers. Join the community today!",
   icons: {
     icon: "/assets/images/site-logo.svg",
