@@ -20,7 +20,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "NextFlow",
+  title: "OverFlow",
   description:
     "A re-imagined stack overflow clone with a focus on" +
     " community. Explore questions, answers, and users. Ask questions and" +

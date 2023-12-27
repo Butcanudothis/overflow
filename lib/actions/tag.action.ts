@@ -18,11 +18,19 @@ export async function getTopInteractedTags(params: GetTopInteractedTagsParams) {
     if (!user) {
       throw new Error("User not found");
     }
-    return [
-      { _id: "1", name: "tag1" },
-      { _id: "2", name: "tag2" },
-      { _id: "3", name: "tag3" },
-    ];
+    //  return 3 random tags
+    const tags = await Tag.aggregate([
+      {
+        $sample: { size: 3 },
+        //   name must be less than 8 characters
+      },
+      {
+        $match: {
+          name: { $not: { $regex: /(\w{8,})/ } },
+        },
+      },
+    ]);
+    return tags;
   } catch (error) {
     console.log(error);
     throw error;

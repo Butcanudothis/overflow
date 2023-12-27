@@ -6,8 +6,8 @@ import { auth } from "@clerk/nextjs";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Ask A Question| NextFlow",
-  description: " Ask a question and get answers from the NextFlow community.",
+  title: "Ask A Question| Overflow",
+  description: " Ask a question and get answers from the Overflow community.",
   icons: {
     icon: "/assets/images/site-logo.svg",
   },

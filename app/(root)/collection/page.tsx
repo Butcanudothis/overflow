@@ -12,9 +12,9 @@ import Pagination from "@/components/shared/Pagination";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Collections | NextFlow",
+  title: "Collections | Overflow",
   description:
-    "NextFlow is a community of developers helping developers." +
+    "Overflow is a community of developers helping developers." +
     " Join today!",
   icons: {
     icon: "/assets/images/site-logo.svg",

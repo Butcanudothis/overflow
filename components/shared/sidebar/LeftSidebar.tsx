@@ -83,6 +83,20 @@ const LeftSideBar = () => {
                 </span>
               </Button>
             </Link>
+            <Link href="https://github.com/Butcanudothis/overflow">
+              <Button className="small-medium btn-tertiary min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
+                <Image
+                  src="/assets/icons/github-mark.svg"
+                  alt="github"
+                  width={20}
+                  height={20}
+                  className="lg:hidden"
+                />
+                <span className="text-dark500_light500 max-lg:hidden">
+                  Github
+                </span>
+              </Button>
+            </Link>
           </div>
         </SignedOut>
       </div>

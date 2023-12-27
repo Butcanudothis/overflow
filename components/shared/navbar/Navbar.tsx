@@ -17,8 +17,8 @@ const Navbar = () => {
           height={23}
         />
         <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900 max-sm:hidden">
-          Next
-          <span className="text-primary-500">Flow</span>
+          Over
+          <span className="text-primary-500">flow</span>
         </p>
       </Link>
       <GlobalSearch />
